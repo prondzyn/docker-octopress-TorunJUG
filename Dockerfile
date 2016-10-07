@@ -15,13 +15,13 @@ RUN apt-get install -y git make gcc curl build-essential zlib1g-dev libreadline-
 
 RUN git clone git://github.com/sstephenson/rbenv.git $HOME/.rbenv
 
+# setting up language and encoding to help Ruby handling various weird characters
 RUN locale-gen en_US.UTF-8
 RUN dpkg-reconfigure locales
+ENV LANG=en_US.UTF-8
 
 ENV PATH="$HOME/.rbenv/bin:$PATH"
 RUN rbenv init -
-# setting up language and encoding to help Ruby handling various weird characters
-ENV LANG=en_US.UTF-8
 
 RUN git clone git://github.com/sstephenson/ruby-build.git $HOME/.rbenv/plugins/ruby-build
 
@@ -47,3 +47,5 @@ RUN echo "alias x=exit" >> $HOME/.bashrc
 RUN echo "alias preview='cd $HOME/octopress; rake preview'" >> $HOME/.bashrc
 RUN echo "alias generate='cd $HOME/octopress; rake generate'" >> $HOME/.bashrc
 RUN echo "alias deploy='cd $HOME/octopress; rake deploy'" >> $HOME/.bashrc
+
+RUN echo "alias ssh-init='eval \`ssh-agent -s\`; ssh-add'" >> $HOME/.bashrc
